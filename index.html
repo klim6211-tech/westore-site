@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>위스토어 — 우리가 함께 운영하는 가게</title>
+<meta name="description" content="출퇴근·급여·발주·매출을 사장님과 직원이 함께 관리하는 매장 운영 앱. 매장관리는 무료, AI 리뷰 자동답글은 월 33,000원.">
+<link rel="icon" href="logo.png">
+<style>
+  :root{
+    --brand:#5B8DEF; --brand-dark:#2A45C3; --brand-soft:#EEF4FF;
+    --text:#1B2533; --body:#4E5968; --muted:#8B95A1;
+    --bg:#FFFFFF; --alt:#F7F9FC; --line:#E7ECF3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
+    color:var(--text); background:var(--bg); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  a{color:var(--brand-dark)}
+
+  /* 헤더 */
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);z-index:10}
+  .hd{display:flex;align-items:center;gap:10px;height:64px}
+  .hd img{width:30px;height:30px}
+  .hd .nm{font-weight:800;font-size:19px;letter-spacing:-.5px}
+  .hd .nm span{color:var(--brand)}
+  .hd nav{margin-left:auto;display:flex;gap:22px;font-size:15px}
+  .hd nav a{color:var(--body);text-decoration:none}
+  .hd nav a:hover{color:var(--brand-dark)}
+
+  /* 히어로 */
+  .hero{padding:76px 0 64px;text-align:center}
+  .hero img{width:104px;height:104px;margin-bottom:20px}
+  .hero h1{font-size:38px;line-height:1.3;letter-spacing:-1.2px;margin:0 0 14px;font-weight:800}
+  .hero p{font-size:18px;color:var(--body);margin:0 auto 28px;max-width:560px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none}
+  .btn.p{background:var(--brand);color:#fff}
+  .btn.s{background:var(--brand-soft);color:var(--brand-dark)}
+
+  /* 섹션 공통 */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  h2{font-size:27px;letter-spacing:-.8px;margin:0 0 8px;font-weight:800}
+  .sub{color:var(--muted);margin:0 0 32px;font-size:16px}
+
+  /* 기능 */
+  .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .feat{background:var(--alt);border-radius:14px;padding:20px}
+  .feat b{display:block;font-size:16px;margin-bottom:5px}
+  .feat span{font-size:14px;color:var(--body)}
+
+  /* 요금제 */
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .plan{border:1px solid var(--line);border-radius:18px;padding:28px}
+  .plan.hi{border:2px solid var(--brand);box-shadow:0 8px 30px rgba(91,141,239,.14)}
+  .plan .tag{display:inline-block;font-size:13px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--brand-soft);color:var(--brand-dark);margin-bottom:12px}
+  .plan h3{font-size:20px;margin:0 0 6px;font-weight:800}
+  .price{font-size:32px;font-weight:800;letter-spacing:-1px;margin:6px 0 2px}
+  .price small{font-size:15px;font-weight:600;color:var(--muted)}
+  .vat{font-size:13px;color:var(--muted);margin-bottom:18px}
+  .plan ul{list-style:none;padding:0;margin:0;font-size:15px;color:var(--body)}
+  .plan li{padding:7px 0 7px 24px;position:relative}
+  .plan li:before{content:"✓";position:absolute;left:0;color:var(--brand);font-weight:800}
+
+  /* 표 */
+  table{border-collapse:collapse;width:100%;font-size:15px;margin-top:8px}
+  th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+  th{background:var(--alt);font-weight:700;width:34%}
+
+  /* 푸터 */
+  footer{background:var(--alt);padding:44px 0;font-size:14px;color:var(--body)}
+  footer .biz{line-height:2}
+  footer .biz b{color:var(--text)}
+  footer .lk{margin-top:18px;display:flex;gap:18px;flex-wrap:wrap}
+  .note{background:var(--brand-soft);border-radius:12px;padding:16px 18px;font-size:15px;color:var(--brand-dark);margin-top:18px}
+
+  @media (max-width:640px){
+    .hero h1{font-size:29px}
+    .plans{grid-template-columns:1fr}
+    .hd nav{display:none}
+    th{width:40%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <img src="logo.png" alt="위스토어">
+    <div class="nm">We<span>Store</span></div>
+    <nav>
+      <a href="#features">기능</a>
+      <a href="#pricing">요금제</a>
+      <a href="#refund">환불·해지</a>
+      <a href="#support">문의</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <img src="logo.png" alt="위스토어 로고">
+  <h1>우리가 함께 운영하는 가게</h1>
+  <p>출퇴근·급여·발주·매출을 사장님과 직원이 한곳에서 관리합니다.<br>매장 운영에 필요한 기능은 전부 무료입니다.</p>
+  <div class="btns">
+    <a class="btn p" href="https://apps.apple.com/kr/app/id6786059592">iPhone에서 받기</a>
+    <a class="btn s" href="#pricing">요금제 보기</a>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>매장 운영에 필요한 것</h2>
+    <p class="sub">아래 기능은 전부 <b>무료</b>입니다. 인원 제한도 매장 수 제한도 없습니다.</p>
+    <div class="feats">
+      <div class="feat"><b>출퇴근</b><span>위치 확인을 거친 출퇴근 기록. 근무시간이 자동으로 쌓입니다.</span></div>
+      <div class="feat"><b>급여 계산</b><span>주휴·야간·연장수당을 근로기준법대로 계산해 급여명세서까지 만듭니다.</span></div>
+      <div class="feat"><b>발주·식자재</b><span>품목별 재고와 가격 이력을 관리하고 발주서를 만듭니다.</span></div>
+      <div class="feat"><b>매출 보고</b><span>일·주·월 매출을 기록하고 흐름을 봅니다.</span></div>
+      <div class="feat"><b>체크리스트·레시피</b><span>오픈·마감 점검과 조리 기준을 직원과 공유합니다.</span></div>
+      <div class="feat"><b>스케줄·공지</b><span>근무표를 짜고 공지를 전달합니다.</span></div>
+      <div class="feat"><b>권한 관리</b><span>알바·직원·매니저·점장별로 볼 수 있는 것을 정합니다.</span></div>
+      <div class="feat"><b>사장님 라운지</b><span>다른 사장님들과 운영 노하우를 나눕니다.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>요금제</h2>
+    <p class="sub">플랜은 두 개입니다. 매장 단위로 계약합니다.</p>
+    <div class="plans">
+      <div class="plan">
+        <span class="tag">무료</span>
+        <h3>매장관리</h3>
+        <div class="price">0<small>원</small></div>
+        <div class="vat">계속 무료입니다</div>
+        <ul>
+          <li>출퇴근·근태 관리</li>
+          <li>급여 계산·명세서</li>
+          <li>발주·식자재·레시피</li>
+          <li>매출 보고·체크리스트</li>
+          <li>스케줄·공지·권한 관리</li>
+          <li>인원·매장 수 제한 없음</li>
+        </ul>
+      </div>
+      <div class="plan hi">
+        <span class="tag">3주 무료체험</span>
+        <h3>성장 — AI 리뷰 관리</h3>
+        <div class="price">33,000<small>원 / 월</small></div>
+        <div class="vat">부가세 포함 · 매장 1곳 기준</div>
+        <ul>
+          <li>새 리뷰에 AI가 <b>자동으로 답글 작성·게시</b></li>
+          <li>가게 말투·금지어를 학습한 답글</li>
+          <li>부정 리뷰 즉시 알림</li>
+          <li>별점 흐름·키워드·시간대 분석</li>
+          <li>리뷰 통합 관리</li>
+          <li>언제든 해지 가능</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <b>성장 요금제는 매장 단위로 계약합니다.</b>
+      사업자 인증을 마친 매장만 신청할 수 있고, 결제한 매장의 사장님·직원이 함께 이용합니다.
+      결제는 위스토어 앱에서 카드를 등록해 진행하며, 등록한 카드로 매월 자동 결제됩니다.
+    </div>
+  </div>
+</section>
+
+<section id="refund">
+  <div class="wrap">
+    <h2>결제·환불·해지</h2>
+    <p class="sub">전자상거래 등에서의 소비자보호에 관한 법률을 따릅니다.</p>
+    <table>
+      <tr>
+        <th>결제 수단</th>
+        <td>신용·체크카드 (등록한 카드로 매월 자동 결제). 세금계산서가 필요한 경우 계좌이체로 별도 안내드립니다.</td>
+      </tr>
+      <tr>
+        <th>결제 주기</th>
+        <td>무료체험 3주가 끝난 다음 날 첫 결제가 이뤄지고, 이후 매월 같은 날 자동 결제됩니다.</td>
+      </tr>
+      <tr>
+        <th>무료체험 중 해지</th>
+        <td><b>요금이 청구되지 않습니다.</b> 체험 기간 안에 해지하시면 결제가 시작되지 않습니다.</td>
+      </tr>
+      <tr>
+        <th>청약철회</th>
+        <td>결제일로부터 <b>7일 이내</b>이고 유료 기능(AI 자동답글 등)을 <b>한 번도 사용하지 않은</b> 경우 전액 환불해 드립니다.</td>
+      </tr>
+      <tr>
+        <th>이용 중 해지</th>
+        <td>해지를 신청하시면 <b>이미 결제한 이용기간이 끝날 때까지 그대로 쓰시고</b>, 다음 결제부터 청구되지 않습니다. 이용한 기간에 대한 일할 환불은 없습니다.</td>
+      </tr>
+      <tr>
+        <th>회사 사정에 의한 중단</th>
+        <td>회사의 사정으로 서비스를 제공하지 못한 기간이 있으면 그 기간만큼 일할 계산하여 환불합니다.</td>
+      </tr>
+      <tr>
+        <th>해지 방법</th>
+        <td>위스토어 앱 → 프로필 → 구독 관리 → 해지하기. 또는 아래 연락처로 문의해 주시면 처리해 드립니다.</td>
+      </tr>
+      <tr>
+        <th>환불 처리 기간</th>
+        <td>환불 사유 확인 후 <b>영업일 기준 3일 이내</b>에 결제하신 수단으로 취소·환불합니다. 카드사 사정에 따라 실제 입금까지 며칠 더 걸릴 수 있습니다.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section id="support">
+  <div class="wrap">
+    <h2>문의</h2>
+    <p class="sub">가입·결제·환불 문의는 아래로 연락 주세요.</p>
+    <table>
+      <tr><th>전화</th><td>010-5123-6859 (평일 10:00~18:00)</td></tr>
+      <tr><th>이메일</th><td><a href="mailto:klim6211@gmail.com">klim6211@gmail.com</a></td></tr>
+      <tr><th>앱 안에서</th><td>프로필 → 고객센터 → 문의하기</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="biz">
+      <b>마잇템즈</b><br>
+      대표자 강청림 &nbsp;|&nbsp; 사업자등록번호 139-39-01457<br>
+      주소 인천광역시 미추홀구 남주길 150, 117동 2002호 (22159)<br>
+      전화 010-5123-6859 &nbsp;|&nbsp; 이메일 klim6211@gmail.com
+    </div>
+    <div class="lk">
+      <!-- 약관과 개인정보처리방침이 한 페이지에 같이 있다. 링크를 둘로 나누면
+           같은 주소가 두 번 뜨므로 하나로 묶는다. -->
+      <a href="https://klim6211-tech.github.io/westore-legal/">이용약관 · 개인정보처리방침</a>
+      <a href="#refund">환불·해지 규정</a>
+    </div>
+    <p style="margin-top:20px;color:var(--muted);font-size:13px">© 2026 마잇템즈. WeStore.</p>
+  </div>
+</footer>
+
+</body>
+</html>
