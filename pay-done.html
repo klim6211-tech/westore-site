@@ -80,16 +80,21 @@
         .then(function (res) {
           if (!res.ok) throw new Error(res.body && res.body.message ? res.body.message : '승인에 실패했습니다.');
           var b = res.body;
+          var rows = [
+            ['상품', b.recurring
+              ? '성장 요금제 — AI 리뷰 관리 (월 자동결제)'
+              : 'AI 리뷰 관리 1개월 이용권 (자동갱신 없음)'],
+            ['매장', b.storeName || '-'],
+            ['결제 금액', (b.amount || 0).toLocaleString() + '원 (부가세 포함)'],
+            ['결제 수단', b.method || '신용·체크카드'],
+            ['이용 시작', '결제 완료 즉시'],
+          ];
+          rows.push(b.recurring
+            ? ['다음 결제일', b.nextBillingDate || '한 달 뒤 같은 날']
+            : ['이용 종료', '한 달 뒤 자동 종료 · 추가 청구 없음']);
           render('ok', '결제가 완료되었습니다',
             '<b>지금 바로 이용하실 수 있습니다.</b> 위스토어 앱을 열면 AI 리뷰 관리가 켜져 있습니다. 별도 배송은 없습니다.',
-            [
-              ['상품', '성장 — AI 리뷰 관리 (월 자동결제)'],
-              ['매장', b.storeName || '-'],
-              ['결제 금액', (b.amount || 33000).toLocaleString() + '원 (부가세 포함)'],
-              ['결제 수단', b.method || '신용·체크카드'],
-              ['이용 시작', '결제 완료 즉시'],
-              ['다음 결제일', b.nextBillingDate || '한 달 뒤 같은 날'],
-            ]);
+            rows);
         })
         .catch(function (e) {
           render('no', '결제 승인 중 문제가 생겼습니다',
