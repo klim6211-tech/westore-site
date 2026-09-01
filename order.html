@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>성장 — AI 리뷰 관리 신청 | 위스토어</title>
+<meta name="description" content="위스토어 성장 요금제(AI 리뷰 관리) 상품 상세 및 결제. 월 33,000원(부가세 포함), 매장 1곳 기준. 결제 완료 즉시 이용할 수 있습니다.">
+<link rel="icon" href="logo.png">
+<style>
+  :root{
+    --brand:#5B8DEF; --brand-dark:#2A45C3; --brand-soft:#EEF4FF;
+    --text:#1B2533; --body:#4E5968; --muted:#8B95A1;
+    --bg:#FFFFFF; --alt:#F7F9FC; --line:#E7ECF3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
+    color:var(--text); background:var(--bg); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);z-index:10}
+  .hd{display:flex;align-items:center;gap:10px;height:60px}
+  .hd img{width:30px;height:30px;border-radius:8px}
+  .hd .nm{font-weight:800;font-size:17px;letter-spacing:-.4px}
+  .hd .nm span{color:var(--brand)}
+  .hd nav{margin-left:auto;display:flex;gap:22px;font-size:15px;color:var(--body);text-decoration:none}
+  .hd nav a{text-decoration:none}
+
+  h1{font-size:30px;letter-spacing:-1px;margin:0 0 6px;font-weight:800}
+  .lead{color:var(--muted);margin:0 0 30px;font-size:16px}
+  section{padding:44px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  h2{font-size:22px;letter-spacing:-.6px;margin:0 0 14px;font-weight:800}
+
+  .buy{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:start}
+  .card{border:1px solid var(--line);border-radius:18px;padding:26px}
+  .card.hi{border:2px solid var(--brand);box-shadow:0 8px 30px rgba(91,141,239,.14)}
+  .tag{display:inline-block;font-size:13px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--brand-soft);color:var(--brand-dark);margin-bottom:12px}
+  .price{font-size:34px;font-weight:800;letter-spacing:-1px;margin:6px 0 2px}
+  .price small{font-size:15px;font-weight:600;color:var(--muted)}
+  .vat{font-size:13px;color:var(--muted);margin-bottom:16px}
+  ul.chk{list-style:none;padding:0;margin:0;font-size:15px;color:var(--body)}
+  ul.chk li{padding:7px 0 7px 24px;position:relative}
+  ul.chk li:before{content:"✓";position:absolute;left:0;color:var(--brand);font-weight:800}
+
+  table{border-collapse:collapse;width:100%;font-size:15px}
+  th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+  th{background:var(--alt);font-weight:700;width:32%;white-space:nowrap}
+
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+  .field input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit}
+  .field input:focus{outline:none;border-color:var(--brand)}
+  .field .hint{font-size:13px;color:var(--muted);margin-top:5px}
+
+  .total{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-top:1px solid var(--line);margin-top:6px}
+  .total b{font-size:22px}
+  .agree{font-size:13px;color:var(--muted);margin:10px 0 16px;line-height:1.7}
+  button.pay{width:100%;padding:16px;border:0;border-radius:14px;background:var(--brand);color:#fff;font-size:17px;font-weight:800;font-family:inherit;cursor:pointer}
+  button.pay:disabled{background:#C6D5F5;cursor:not-allowed}
+  .err{display:none;margin-top:12px;padding:13px 15px;border-radius:12px;background:#FFF1F0;color:#C0392B;font-size:14px;line-height:1.6}
+
+  .note{background:var(--brand-soft);border-radius:12px;padding:16px 18px;font-size:15px;color:var(--brand-dark);margin-top:18px}
+
+  footer{background:var(--alt);padding:44px 0;font-size:14px;color:var(--body);margin-top:20px}
+  footer .biz{line-height:2}
+  footer .biz b{color:var(--text)}
+  footer .lk{margin-top:18px;display:flex;gap:18px;flex-wrap:wrap}
+
+  @media (max-width:760px){
+    .buy{grid-template-columns:1fr}
+    .hd nav{display:none}
+    th{width:38%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+      <img src="logo.png" alt="위스토어">
+      <div class="nm">We<span>Store</span></div>
+    </a>
+    <nav>
+      <a href="index.html#features">기능</a>
+      <a href="index.html#pricing">요금제</a>
+      <a href="index.html#refund">환불·해지</a>
+      <a href="index.html#support">문의</a>
+    </nav>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h1>성장 — AI 리뷰 관리</h1>
+    <p class="lead">새로 달린 리뷰에 AI가 가게 말투로 답글을 써서 자동으로 올립니다. 매장 1곳 기준입니다.</p>
+
+    <div class="buy">
+      <!-- 왼쪽: 상품 상세 -->
+      <div>
+        <div class="card hi">
+          <span class="tag">3주 무료체험</span>
+          <div class="price">33,000<small>원 / 월</small></div>
+          <div class="vat">부가세 포함 · 매장 1곳 기준 · 월 자동결제</div>
+          <ul class="chk">
+            <li>새 리뷰에 AI가 <b>자동으로 답글 작성·게시</b></li>
+            <li>가게 말투·금지어를 학습한 답글</li>
+            <li>부정 리뷰 즉시 알림</li>
+            <li>별점 흐름·키워드·시간대 분석</li>
+            <li>여러 플랫폼 리뷰 통합 관리</li>
+            <li>언제든 해지 가능</li>
+          </ul>
+        </div>
+
+        <h2 style="margin-top:34px">상품 정보</h2>
+        <table>
+          <tr><th>상품명</th><td>위스토어 성장 요금제 (AI 리뷰 관리)</td></tr>
+          <tr><th>판매가</th><td>월 33,000원 (부가가치세 포함)</td></tr>
+          <tr><th>이용 단위</th><td>매장 1곳. 해당 매장의 사장님과 직원이 함께 이용합니다.</td></tr>
+          <tr>
+            <th>제공 시기</th>
+            <td>
+              <b>결제 완료 즉시 이용할 수 있습니다.</b><br>
+              온라인으로 제공되는 무형의 서비스로 <b>별도의 배송이 없습니다.</b>
+              결제가 끝나면 위스토어 앱에서 AI 리뷰 관리 기능이 바로 켜집니다.
+              (영업일·공휴일과 무관하게 즉시 적용, 최대 1분 이내)
+            </td>
+          </tr>
+          <tr><th>이용 기간</th><td>결제일로부터 1개월. 이후 매월 같은 날 자동으로 갱신됩니다.</td></tr>
+          <tr><th>결제 수단</th><td>신용·체크카드. 세금계산서가 필요하시면 계좌이체로 별도 안내드립니다.</td></tr>
+          <tr><th>신청 조건</th><td>사업자 인증을 마친 매장만 신청할 수 있습니다.</td></tr>
+          <tr><th>청약철회</th><td>결제일로부터 7일 이내이고 유료 기능을 한 번도 사용하지 않은 경우 전액 환불합니다.</td></tr>
+          <tr><th>해지</th><td>위스토어 앱 → 프로필 → 구독 관리 → 해지하기. 이미 결제한 이용기간이 끝날 때까지 그대로 쓰시고, 다음 결제부터 청구되지 않습니다.</td></tr>
+          <tr><th>문의</th><td>010-5123-6859 (평일 10:00~18:00) · klim6211@gmail.com</td></tr>
+        </table>
+
+        <div class="note">
+          <b>환불·해지 규정 전문은 <a href="index.html#refund" style="color:inherit">여기</a>에서 보실 수 있습니다.</b>
+          전자상거래 등에서의 소비자보호에 관한 법률을 따릅니다.
+        </div>
+      </div>
+
+      <!-- 오른쪽: 결제 -->
+      <div class="card" id="checkout">
+        <h2 style="margin:0 0 16px">결제</h2>
+
+        <div class="field">
+          <label for="storeName">매장 이름</label>
+          <input id="storeName" type="text" placeholder="예: 우리집 삼겹살 구월점" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="ownerName">신청자 이름</label>
+          <input id="ownerName" type="text" placeholder="사장님 성함" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="phone">휴대폰 번호</label>
+          <input id="phone" type="tel" placeholder="010-0000-0000" autocomplete="tel" inputmode="numeric">
+          <div class="hint">위스토어 앱에 가입한 번호로 적어 주세요. 이 번호의 매장에 기능이 켜집니다.</div>
+        </div>
+
+        <div class="total">
+          <span>결제 금액</span>
+          <b>33,000원</b>
+        </div>
+
+        <p class="agree">
+          결제하기를 누르면 <a href="https://klim6211-tech.github.io/westore-legal/terms.html">이용약관</a>과
+          <a href="https://klim6211-tech.github.io/westore-legal/privacy.html">개인정보처리방침</a>,
+          그리고 위 <b>환불·해지 규정</b>에 동의하는 것으로 봅니다.
+        </p>
+
+        <button class="pay" id="payBtn" type="button">카드로 결제하기</button>
+        <div class="err" id="err"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="biz">
+      <b>마잇템즈</b><br>
+      대표자 강청림 &nbsp;|&nbsp; 사업자등록번호 139-39-01457<br>
+      주소 인천광역시 미추홀구 남주길 150, 117동 2002호 (22159)<br>
+      전화 010-5123-6859 &nbsp;|&nbsp; 이메일 klim6211@gmail.com
+    </div>
+    <div class="lk">
+      <a href="https://klim6211-tech.github.io/westore-legal/terms.html">이용약관</a>
+      <a href="https://klim6211-tech.github.io/westore-legal/privacy.html">개인정보처리방침</a>
+      <a href="index.html#refund">환불·해지 규정</a>
+    </div>
+    <p style="margin-top:18px;color:var(--muted)">© 2026 마잇템즈. WeStore.</p>
+  </div>
+</footer>
+
+<script>
+  // 결제 준비는 서버에서 한다 — 가맹점 키를 브라우저에 둘 수 없다.
+  var READY_URL = 'https://mhbpqddbldelqcsbafbn.supabase.co/functions/v1/kakaopay-ready';
+  var btn = document.getElementById('payBtn');
+  var err = document.getElementById('err');
+
+  function show(msg) { err.textContent = msg; err.style.display = 'block'; }
+
+  btn.addEventListener('click', function () {
+    err.style.display = 'none';
+    var storeName = document.getElementById('storeName').value.trim();
+    var ownerName = document.getElementById('ownerName').value.trim();
+    var phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
+
+    if (!storeName) return show('매장 이름을 적어 주세요.');
+    if (!ownerName) return show('신청자 이름을 적어 주세요.');
+    if (phone.length < 10) return show('휴대폰 번호를 정확히 적어 주세요.');
+
+    btn.disabled = true;
+    btn.textContent = '결제창을 여는 중…';
+
+    fetch(READY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ storeName: storeName, ownerName: ownerName, phone: phone })
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.body.redirectUrl) {
+          throw new Error(res.body && res.body.message ? res.body.message : '결제창을 열지 못했습니다.');
+        }
+        var isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+        location.href = isMobile ? res.body.redirectUrlMobile || res.body.redirectUrl : res.body.redirectUrl;
+      })
+      .catch(function (e) {
+        btn.disabled = false;
+        btn.textContent = '카드로 결제하기';
+        show(e.message + ' 잠시 후 다시 시도해 주시고, 계속 안 되면 010-5123-6859로 연락 주세요.');
+      });
+  });
+</script>
+</body>
+</html>
