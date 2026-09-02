@@ -44,6 +44,10 @@
   .btn.s{background:var(--brand-soft);color:var(--brand-dark)}
   .btn.big{padding:18px 40px;font-size:18px}
   .btns-note{font-size:13px;color:var(--muted);margin:14px 0 0}
+  /* 눌러도 안 되는 상황을 버튼 위에서 미리 알린다. 색은 이미 있는 주의색을 쓴다. */
+  .notice{max-width:520px;margin:0 auto 18px;padding:14px 16px;border-radius:12px;
+    font-size:15px;line-height:1.6;text-align:left}
+  .notice.warn{background:#FFF4E5;color:#8A4B00}
 
   /* 섹션 공통 */
   section{padding:56px 0;border-top:1px solid var(--line)}
@@ -97,11 +101,51 @@
   <img src="../logo.png" alt="위스토어 로고">
   <h1>안드로이드 설치</h1>
   <p>아래 버튼으로 설치 파일을 받은 다음, 나오는 순서대로 따라 하시면 설치가 끝납니다.</p>
+
+  <!--
+    🔴 버튼 위에 띄운다 (2026-09-02).
+    아이폰에서 이 버튼을 누르면 아무 일도 안 일어난다. 설치 파일이 안드로이드 전용이라
+    그렇다. 인스타그램이나 카카오톡 안에서 열면 앱이 파일 받기를 막아서 역시 안 된다.
+    안내가 페이지 맨 아래에 있으면 큰 버튼을 먼저 누르고 "왜 안 되지" 하게 된다.
+    그래서 눌리기 전에 보이는 자리에 둔다.
+  -->
+  <div id="warnIos" class="notice warn" hidden>
+    아이폰에서는 이 파일을 설치할 수 없습니다. 아래 <b>App Store에서 받기</b>를 눌러 주세요.
+  </div>
+  <div id="warnApp" class="notice warn" hidden>
+    지금 인스타그램이나 카카오톡 같은 앱 안에서 보고 계십니다. 여기서는 파일 받기가 막혀 있어요.
+    오른쪽 위 버튼을 눌러 <b>크롬</b>이나 <b>삼성 인터넷</b>으로 열어 주세요.
+  </div>
+
   <div class="btns">
     <a class="btn p big" href="https://github.com/klim6211-tech/westore-site/releases/download/apk-1.0.4-11/westore.apk">안드로이드 설치 파일 받기</a>
   </div>
   <p class="btns-note">안드로이드 휴대폰에서 열어 주세요. 파일 이름은 westore.apk 입니다.</p>
+
+  <div id="iosCta" hidden>
+    <div class="btns" style="margin-top:14px">
+      <a class="btn s" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
+    </div>
+  </div>
 </div>
+
+<script>
+  /* 무엇으로 보고 있는지 확인해 맞는 안내만 띄운다. 둘 다 아니면 아무것도 안 띄운다. */
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isIos = /iPhone|iPad|iPod/i.test(ua)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    /* 인앱 브라우저. 카카오톡, 인스타그램, 페이스북, 네이버, 라인, 밴드. */
+    var inApp = /KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Line\/|BAND/i.test(ua);
+
+    if (isIos) {
+      document.getElementById('warnIos').hidden = false;
+      document.getElementById('iosCta').hidden = false;
+    } else if (inApp) {
+      document.getElementById('warnApp').hidden = false;
+    }
+  })();
+</script>
 
 <section>
   <div class="wrap">
