@@ -17,15 +17,17 @@ out_dir = sys.argv[sys.argv.index("--") + 1] if "--" in sys.argv else os.getcwd(
 os.makedirs(out_dir, exist_ok=True)
 
 # ── 1. 형태 (x = 가로, z = 세로, y = 두께 방향. 카메라는 -y 에서 +y 를 본다) ──
-W_OUT = 0.50        # 바깥 획 폭 (원본이 가운데보다 굵다)
-W_MID = 0.38        # 가운데 V 폭
-THICK = 0.06        # 띠 두께
-GAP = THICK * 1.15  # 덩어리 사이 앞뒤 간격
+W_OUT = 0.70        # 바깥 획 폭 — 원본 픽셀 실측: 높이의 39%
+W_MID = 0.44        # 가운데 V 폭 (바깥 획에 가려져 보이는 폭은 더 좁다)
+THICK = 0.075       # 띠 두께
+GAP = THICK * 1.25  # 덩어리 사이 앞뒤 간격
+TILT = math.radians(9)   # 획을 자기 축으로 살짝 돌려 종이 오린 것이 아니라 공중에 뜬 리본처럼
 CAP_SEG = 28
 
-TOP_L = Vector((-1.12, 0.92)); BOT_L = Vector((-0.48, -0.90))
-PEAK  = Vector(( 0.04, 0.22))
-BOT_R = Vector(( 0.44, -0.90)); TOP_R = Vector(( 1.12, 0.92))
+# 실측(reference 픽셀): 전체 폭/높이 1.363, 봉우리는 위에서 32.7% 지점
+TOP_L = Vector((-0.92, 0.92)); BOT_L = Vector((-0.40, -0.90))
+PEAK  = Vector(( 0.02, 0.24))
+BOT_R = Vector(( 0.40, -0.90)); TOP_R = Vector(( 0.93, 0.92))
 
 def unit(v): return v / v.length
 
@@ -83,7 +85,7 @@ def make_slab(name, outline2d, y_offset, thick):
     sol = obj.modifiers.new("Solidify", "SOLIDIFY")
     sol.thickness = thick; sol.offset = 0.0; sol.use_even_offset = True
     bev = obj.modifiers.new("Bevel", "BEVEL")
-    bev.width = thick * 0.30; bev.segments = 4; bev.limit_method = "ANGLE"; bev.angle_limit = math.radians(40)
+    bev.width = thick * 0.45; bev.segments = 6; bev.limit_method = "ANGLE"; bev.angle_limit = math.radians(40)
     bpy.context.view_layer.objects.active = obj; obj.select_set(True)
     bpy.ops.object.modifier_apply(modifier="Solidify")
     bpy.ops.object.modifier_apply(modifier="Bevel")
@@ -98,9 +100,19 @@ B = make_slab("W_mid",   vee(BOT_L + Vector((0.02, -0.05)), PEAK, BOT_R + Vector
 C = make_slab("W_right", stadium(BOT_R, TOP_R, W_OUT / 2),    -GAP, THICK)   # 앞
 slabs = [A, B, C]
 
+def tilt(obj, p0, p1, ang):
+    """획 방향(p0→p1)을 축으로 ang 만큼 돌린다. 원점은 획 가운데."""
+    from mathutils import Matrix
+    axis = Vector(((p1 - p0).x, 0.0, (p1 - p0).y)).normalized()
+    ctr = Vector(((p0 + p1).x / 2, obj.location.y, (p0 + p1).y / 2))
+    obj.matrix_world = Matrix.Translation(ctr) @ Matrix.Rotation(ang, 4, axis) @ Matrix.Translation(-ctr) @ obj.matrix_world
+tilt(A, TOP_L, BOT_L, +TILT)
+tilt(C, BOT_R, TOP_R, -TILT)
+tilt(B, BOT_L, BOT_R, +TILT * 0.5)
+
 # ── 2. 색: x 로 그라데이션 텍스처 + UV ─────────────────────
-C0 = (0.58, 0.76, 0.99)   # 왼쪽 연파랑 (#94C2FC)
-C1 = (0.03, 0.06, 0.78)   # 오른쪽 진파랑 (AgX 가 채도를 눌러서 더 진하게 준다)
+C0 = (0.40, 0.60, 0.86)   # 왼쪽 #AACBEE (실측) 의 선형값
+C1 = (0.012, 0.028, 0.55) # 오른쪽 끝 진남색
 xmin = min(v.co.x for o in slabs for v in o.data.vertices)
 xmax = max(v.co.x for o in slabs for v in o.data.vertices)
 
@@ -108,7 +120,7 @@ img = bpy.data.images.new("WGradient", 512, 4, alpha=False)
 px = []
 for _ in range(4):
     for x in range(512):
-        t = (x / 511) ** 1.1
+        t = (x / 511) ** 1.5      # 왼쪽은 오래 연하게, 오른쪽 끝에서 확 진해진다
         px += [C0[0] + (C1[0]-C0[0])*t, C0[1] + (C1[1]-C0[1])*t, C0[2] + (C1[2]-C0[2])*t, 1.0]
 img.pixels = px
 img.filepath_raw = os.path.join(out_dir, "w-gradient.png"); img.file_format = "PNG"; img.save()
@@ -154,16 +166,22 @@ scene.render.film_transparent = True
 scene.view_settings.view_transform = "AgX"; scene.view_settings.look = "AgX - Medium High Contrast"
 
 world = bpy.data.worlds.new("W"); scene.world = world; world.use_nodes = True
-bg = world.node_tree.nodes["Background"]; bg.inputs[0].default_value = (0.9, 0.93, 1.0, 1); bg.inputs[1].default_value = 0.35
+wn = world.node_tree; bg = wn.nodes["Background"]
+env = wn.nodes.new("ShaderNodeTexEnvironment")
+env.image = bpy.data.images.load("/usr/lib/blender/datafiles/studiolights/world/studio.exr")
+wn.links.new(env.outputs["Color"], bg.inputs["Color"]); bg.inputs[1].default_value = 0.9
+# 바닥: 그림자만 받는다 (투명 렌더에서도 그림자가 남는다)
+bpy.ops.mesh.primitive_plane_add(size=12, location=(0, 0, -1.35)); floor = bpy.context.active_object
+floor.is_shadow_catcher = True; floor.select_set(False)
 
 def light(name, loc, energy, size):
     ld = bpy.data.lights.new(name, "AREA"); ld.energy = energy; ld.size = size
     lo = bpy.data.objects.new(name, ld); bpy.context.collection.objects.link(lo)
     lo.location = loc
     lo.rotation_euler = (Vector((0, 0, 0)) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
-light("Key",  (-2.5, -4.0,  3.5), 260, 3.0)
-light("Fill", ( 3.0, -3.5, -0.5),  90, 4.0)
-light("Rim",  ( 1.0,  3.0,  2.5), 160, 2.0)
+light("Key",  (-2.5, -4.0,  3.5), 140, 3.0)
+light("Fill", ( 3.0, -3.5, -0.5),  40, 4.0)
+light("Rim",  ( 1.0,  3.0,  2.5), 120, 2.0)
 
 cam_data = bpy.data.cameras.new("Cam"); cam_data.lens = 75
 cam = bpy.data.objects.new("Cam", cam_data); bpy.context.collection.objects.link(cam); scene.camera = cam
