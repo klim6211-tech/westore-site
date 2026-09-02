@@ -90,3 +90,14 @@
   카카오페이 심사가 끝난 뒤**로 둔다(2026-09-01 규칙 "사이트 문구는 심사 끝나고 수정"). 그 전까지는 미리보기 주소로만.
 - "3D가 폰에서 버벅이면?" → 폰에서는 3D를 끄고 정지 이미지. 기기 성능 감지는 기본 내장.
 - "카피가 19섹션인데 한 페이지에 다 넣으면 너무 길다" → 랜딩엔 12개만, 나머지는 하위 페이지로 뺐다(1장 표).
+
+## 진행 기록
+
+- **2026-09-03 02:55 — 0·1단계 완료.** 저장소 `~/apps/westore-web`(Astro 7 + React + Tailwind v4 + motion/lenis/gsap).
+  미리보기 **https://westore-web.pages.dev** (Cloudflare Pages 프로젝트 `westore-web`, 계정 ID 필요:
+  `CLOUDFLARE_ACCOUNT_ID=7432d48e875c92bcbdb7dfb72ddd3bfd`). 배포는 `npm run build` 뒤
+  `npx wrangler@latest pages deploy dist --project-name=westore-web --branch=main --commit-dirty=true`.
+  - `/pricing` `/download` `/legal` 원문 이전 — 요금제·환불 표·문의·사업자정보 **글자 단위 일치 확인**(BeautifulSoup 비교).
+  - `order.html` `pay-done.html` 은 `public/` 에 그대로. Cloudflare 가 `.html` 을 `/order` 로 308 리다이렉트한다(쿼리 보존).
+  - 로고 결정 **B-1**: 화면엔 원본 PNG, 그려지는 연출에만 벡터(`public/brand/w-logo.svg`, 원본과 99.3% 일치). 3D 는 안 쓴다.
+- 다음: 2단계 히어로(카드 집결 + 로고 그려지기) + 섹션 3·4·5.
