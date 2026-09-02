@@ -1,0 +1,4 @@
+# APK 는 GitHub Pages 100MB 제한을 넘어 저장소에 두지 않는다.
+# 릴리스 에셋으로 올리고 /android/ 페이지가 그 URL 로 링크한다.
+# 올리는 법: gh release create apk-<버전>-<코드> <파일> --repo klim6211-tech/westore-site
+android/*.apk
