@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>위스토어 안드로이드 설치</title>
+<meta name="description" content="안드로이드에서 위스토어 설치 파일을 내려받아 설치하는 방법을 안내합니다.">
+<link rel="icon" href="../logo.png">
+<style>
+  :root{
+    --brand:#5B8DEF; --brand-dark:#2A45C3; --brand-soft:#EEF4FF;
+    --text:#1B2533; --body:#4E5968; --muted:#8B95A1;
+    --bg:#FFFFFF; --alt:#F7F9FC; --line:#E7ECF3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
+    color:var(--text); background:var(--bg); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  a{color:var(--brand-dark)}
+
+  /* 헤더 */
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);z-index:10}
+  .hd{display:flex;align-items:center;gap:10px;height:64px}
+  .hd img{width:30px;height:30px}
+  .hd .nm{font-weight:800;font-size:19px;letter-spacing:-.5px}
+  .hd .nm span{color:var(--brand)}
+  .hd nav{margin-left:auto;display:flex;gap:22px;font-size:15px}
+  .hd nav a{color:var(--body);text-decoration:none}
+  .hd nav a:hover{color:var(--brand-dark)}
+
+  /* 히어로 */
+  /* .wrap 의 좌우 여백을 .hero 가 덮어쓰지 않도록 좌우 24px 를 다시 준다 */
+  .hero{padding:64px 24px 56px;text-align:center}
+  .hero img{width:88px;height:88px;margin-bottom:18px}
+  .hero h1{font-size:34px;line-height:1.3;letter-spacing:-1.2px;margin:0 0 14px;font-weight:800}
+  .hero p{font-size:17px;color:var(--body);margin:0 auto 26px;max-width:560px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none}
+  .btn.p{background:var(--brand);color:#fff}
+  .btn.s{background:var(--brand-soft);color:var(--brand-dark)}
+  .btn.big{padding:18px 40px;font-size:18px}
+  .btns-note{font-size:13px;color:var(--muted);margin:14px 0 0}
+
+  /* 섹션 공통 */
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:27px;letter-spacing:-.8px;margin:0 0 8px;font-weight:800}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:16px}
+
+  /* 설치 순서 */
+  .steps{list-style:none;counter-reset:s;padding:0;margin:0;max-width:640px}
+  .steps li{
+    counter-increment:s;position:relative;
+    background:var(--alt);border-radius:14px;
+    padding:18px 20px 18px 58px;margin-bottom:10px;
+    font-size:15px;color:var(--body);
+  }
+  .steps li:before{
+    content:counter(s);position:absolute;left:18px;top:18px;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--brand-soft);color:var(--brand-dark);
+    font-size:13px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .steps li b{color:var(--text)}
+  .note{background:var(--brand-soft);border-radius:12px;padding:16px 18px;font-size:15px;color:var(--brand-dark);margin-top:18px;max-width:640px}
+
+  /* 푸터 */
+  footer{background:var(--alt);padding:44px 0;font-size:14px;color:var(--body)}
+  footer .lk{margin-top:18px;display:flex;gap:18px;flex-wrap:wrap}
+
+  @media (max-width:640px){
+    .hero h1{font-size:27px}
+    .hd nav{display:none}
+    .btn.big{padding:18px 28px;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <img src="../logo.png" alt="위스토어">
+    <div class="nm">We<span>Store</span></div>
+    <nav>
+      <a href="../">홈</a>
+      <a href="../#pricing">요금제</a>
+      <a href="../#support">문의</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <img src="../logo.png" alt="위스토어 로고">
+  <h1>안드로이드 설치</h1>
+  <p>아래 버튼으로 설치 파일을 받은 다음, 나오는 순서대로 따라 하시면 설치가 끝납니다.</p>
+  <div class="btns">
+    <a class="btn p big" href="westore.apk" download>안드로이드 설치 파일 받기</a>
+  </div>
+  <p class="btns-note">안드로이드 휴대폰에서 열어 주세요. 파일 이름은 westore.apk 입니다.</p>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>설치 순서</h2>
+    <p class="sub">처음 한 번만 거치면 되는 과정입니다.</p>
+    <ol class="steps">
+      <li>위의 <b>안드로이드 설치 파일 받기</b>를 누릅니다.</li>
+      <li>파일이 위험할 수 있다는 안내가 뜨면 <b>계속</b> 또는 <b>다운로드 유지</b>를 누릅니다. 정상적인 과정입니다.</li>
+      <li>받기가 끝나면 <b>열기</b>를 누릅니다. 알림이 사라졌으면 <b>내 파일</b> 또는 <b>파일</b> 앱의 <b>다운로드</b> 폴더에서 <b>westore.apk</b>를 누릅니다.</li>
+      <li>이 출처의 앱은 설치할 수 없다는 안내가 뜨면 <b>설정</b>을 누르고 <b>이 출처 허용</b>을 켠 다음, 뒤로 돌아옵니다.</li>
+      <li>앱을 검사하겠다는 안내가 한 번 더 뜰 수 있습니다. <b>무시하고 설치</b> 또는 <b>설치</b>를 누릅니다.</li>
+      <li>설치가 끝나면 <b>열기</b>를 눌러 위스토어를 시작합니다.</li>
+    </ol>
+    <div class="note">
+      휴대폰 기종과 안드로이드 버전에 따라 화면에 뜨는 문구가 조금씩 다릅니다.
+      글자가 똑같지 않아도 비슷한 문구가 뜨면 같은 단계라고 보시면 됩니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>왜 파일로 받나요</h2>
+    <p class="sub">잠깐만 읽어 주세요.</p>
+    <p style="max-width:640px;color:var(--body);margin:0">
+      위스토어는 사장님이 직원을 초대해서 함께 쓰는 업무용 앱입니다.
+      안드로이드는 현재 설치 파일을 직접 내려받는 방식으로 배포하고 있습니다.
+      위스토어가 직접 만들어 올린 파일이니 안심하고 설치하셔도 됩니다.
+    </p>
+    <div class="note">
+      이미 위스토어를 쓰고 계시면 앱을 지우지 않으셔도 됩니다.
+      그 위에 덮어 설치하면 로그인과 기록이 그대로 남습니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>아이폰을 쓰시나요</h2>
+    <p class="sub" style="margin-bottom:20px">아이폰은 이 파일로 설치할 수 없습니다.</p>
+    <div class="btns" style="justify-content:flex-start">
+      <a class="btn p" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
+      <a class="btn s" href="../">홈으로</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>설치가 잘 안 되면 010-5123-6859 (평일 10:00~18:00) 또는 <a href="mailto:klim6211@gmail.com">klim6211@gmail.com</a> 으로 연락 주세요.</div>
+    <div class="lk">
+      <a href="../">홈으로</a>
+      <a href="../#pricing">요금제 보기</a>
+    </div>
+    <p style="margin-top:20px;color:var(--muted);font-size:13px">© 2026 마잇템즈. WeStore.</p>
+  </div>
+</footer>
+
+</body>
+</html>
