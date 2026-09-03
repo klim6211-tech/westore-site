@@ -126,7 +126,7 @@
 
   <div id="iosCta" hidden>
     <div class="btns" style="margin-top:14px">
-      <a class="btn s" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
+      <a class="btn s js-ios" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
     </div>
   </div>
 </div>
@@ -145,6 +145,21 @@
       document.getElementById('iosCta').hidden = false;
     } else if (inApp) {
       document.getElementById('warnApp').hidden = false;
+    }
+
+    /*
+     * 🔴 카카오톡 안에서는 App Store 버튼이 안 먹는다 (2026-09-04 제보).
+     * 인앱 브라우저가 앱스토어로 넘기는 것을 막아 눌러도 아무 일이 없다.
+     * 카카오톡은 기본 브라우저로 빠져나가는 길이 있어 그걸로 다시 연다.
+     * (index.html 에 같은 처리가 있다 — 두 곳 다 고쳐야 한다.)
+     */
+    if (/KAKAOTALK/i.test(ua)) {
+      Array.prototype.forEach.call(document.querySelectorAll('.js-ios'), function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(a.href);
+        });
+      });
     }
   })();
 </script>
@@ -189,7 +204,7 @@
     <h2>아이폰을 쓰시나요</h2>
     <p class="sub" style="margin-bottom:20px">아이폰은 이 파일로 설치할 수 없습니다.</p>
     <div class="btns" style="justify-content:flex-start">
-      <a class="btn p" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
+      <a class="btn p js-ios" href="https://apps.apple.com/kr/app/id6786059592">App Store에서 받기</a>
       <a class="btn s" href="../">홈으로</a>
     </div>
   </div>

@@ -42,6 +42,10 @@
   .btn.p{background:var(--brand);color:#fff}
   .btn.s{background:var(--brand-soft);color:var(--brand-dark)}
   .btns-note{font-size:13px;color:var(--muted);margin:14px 0 0}
+  /* 인앱 브라우저 안내 — android/index.html 의 .notice.warn 과 같은 모양으로 둔다. */
+  .notice{max-width:520px;margin:0 auto 18px;padding:14px 16px;border-radius:12px;
+    font-size:15px;line-height:1.6;text-align:left}
+  .notice.warn{background:#FFF4E5;color:#8A4B00}
 
   /* 섹션 공통 */
   section{padding:64px 0;border-top:1px solid var(--line)}
@@ -108,8 +112,21 @@
   <img src="logo.png" alt="위스토어 로고">
   <h1>우리가 함께 운영하는 가게</h1>
   <p>출퇴근·급여·발주·매출을 사장님과 직원이 한곳에서 관리합니다.<br>매장 운영에 필요한 기능은 전부 무료입니다.</p>
+  <!--
+    🔴 인앱 브라우저 안내 (2026-09-04).
+    카카오톡·인스타그램 안에서 이 페이지를 열면 App Store 버튼을 눌러도
+    아무 일도 안 일어난다 — 인앱 브라우저가 앱스토어로 넘기는 것을 막는다.
+    "앱스토어로 안 넘어간다"는 제보의 대부분이 이 경우다.
+    카카오톡은 외부 브라우저로 넘기는 길이 있어 버튼이 알아서 처리하고,
+    나머지는 직접 열어달라고 알린다.
+  -->
+  <div id="warnApp" class="notice warn" hidden>
+    지금 카카오톡이나 인스타그램 안에서 보고 계십니다. 여기서는 App Store가 안 열려요.
+    오른쪽 위 버튼을 눌러 <b>Safari</b>로 열어 주세요.
+  </div>
+
   <div class="btns">
-    <a class="btn p" href="https://apps.apple.com/kr/app/id6786059592">iPhone에서 받기</a>
+    <a class="btn p" id="iosBtn" href="https://apps.apple.com/kr/app/id6786059592">iPhone에서 받기</a>
     <a class="btn p" href="android/">Android APK 받기</a>
     <a class="btn s" href="#pricing">요금제 보기</a>
   </div>
@@ -256,6 +273,39 @@
     <p style="margin-top:20px;color:var(--muted);font-size:13px">© 2026 마잇템즈. WeStore.</p>
   </div>
 </footer>
+
+<script>
+  /*
+   * "iPhone에서 받기를 눌러도 App Store로 안 넘어간다" 해결 (2026-09-04).
+   *
+   * 링크 자체는 멀쩡하다 — https://apps.apple.com/kr/app/id6786059592 는
+   * 정상으로 열린다(확인함). 문제는 **어디서 눌렀는지**다. 카카오톡으로 링크를
+   * 받아 그 안에서 열면, 인앱 브라우저가 App Store 앱으로 넘기는 것을 막는다.
+   * 눌러도 아무 일이 안 일어나므로 사용자는 "안 된다"고 느낀다.
+   *
+   * 카카오톡은 외부 브라우저로 빠져나가는 길이 있어 그걸 쓰고,
+   * 그 길이 없는 인스타그램·페이스북·네이버 등은 안내만 띄운다.
+   * android/index.html 이 같은 문제를 이미 이렇게 처리하고 있다.
+   */
+  (function () {
+    var ua = navigator.userAgent || '';
+    var isKakao = /KAKAOTALK/i.test(ua);
+    var inApp = /KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Line\/|BAND|DaumApps/i.test(ua);
+    var btn = document.getElementById('iosBtn');
+
+    if (isKakao && btn) {
+      // 카카오톡 전용 — 기본 브라우저로 App Store 주소를 다시 연다.
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(btn.href);
+      });
+      return;
+    }
+    if (inApp) {
+      document.getElementById('warnApp').hidden = false;
+    }
+  })();
+</script>
 
 </body>
 </html>
