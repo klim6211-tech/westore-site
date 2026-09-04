@@ -118,11 +118,13 @@
   </div>
 
   <div class="btns">
-    <a class="btn p big" href="https://github.com/klim6211-tech/westore-site/releases/download/apk-1.0.5-15/westore.apk">안드로이드 설치 파일 받기</a>
+    <a class="btn p big js-apk" href="https://github.com/klim6211-tech/westore-site/releases/download/apk-1.0.5-15/westore.apk">안드로이드 설치 파일 받기</a>
   </div>
   <!-- 버전을 적는 이유: 이미 쓰고 계신 분이 "내 앱이 최신인가"를 여기서 확인한다.
-       설정 화면 맨 아래에 같은 형식으로 버전이 적혀 있어 눈으로 맞춰볼 수 있다. -->
-  <p class="btns-note">최신 버전 1.0.5입니다. 안드로이드 휴대폰에서 열어 주세요. 파일 이름은 westore.apk 입니다.</p>
+       설정 화면 맨 아래에 같은 형식으로 버전이 적혀 있어 눈으로 맞춰볼 수 있다.
+       🔴 크기를 함께 적는다 (2026-09-04 "파일이 안 받아진다" 제보). 163MB는 큰 파일이라
+          데이터로 받으면 오래 걸리고 중간에 끊긴다. 미리 알면 와이파이에서 받는다. -->
+  <p class="btns-note">최신 버전 1.0.5, 파일 크기 약 163MB입니다. <b>와이파이에서 받는 것을 권합니다.</b><br>안드로이드 휴대폰에서 열어 주세요. 파일 이름은 westore.apk 입니다.</p>
 
   <div id="iosCta" hidden>
     <div class="btns" style="margin-top:14px">
@@ -153,8 +155,14 @@
      * 카카오톡은 기본 브라우저로 빠져나가는 길이 있어 그걸로 다시 연다.
      * (index.html 에 같은 처리가 있다 — 두 곳 다 고쳐야 한다.)
      */
+    /*
+     * 🔴 APK 받기 버튼도 카카오톡 안에서는 안 먹는다 (2026-09-04 제보
+     *    "안드로이드 업데이트 파일이 안 받아져서 업데이트를 못했다").
+     *    앞선 수정에서 App Store 버튼(.js-ios)에만 넣고 이걸 빠뜨렸다 —
+     *    정작 안드로이드 사용자가 이 페이지에 오는 이유가 이 버튼인데.
+     */
     if (/KAKAOTALK/i.test(ua)) {
-      Array.prototype.forEach.call(document.querySelectorAll('.js-ios'), function (a) {
+      Array.prototype.forEach.call(document.querySelectorAll('.js-ios, .js-apk'), function (a) {
         a.addEventListener('click', function (e) {
           e.preventDefault();
           location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(a.href);
